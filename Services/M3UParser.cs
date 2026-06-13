@@ -278,10 +278,10 @@ namespace LibmpvIptvClient.Services
         static string ResolveUrl(string url, Uri? baseUri)
         {
             // 对于 rtp2httpd 等本地代理地址，IsValidAbsoluteUrl 可能会因为中文字符等原因失败，但 Uri.TryCreate 仍然可能成功解析为 Absolute
-            if (Uri.TryCreate(url, UriKind.Absolute, out var abs)) return abs.ToString();
+            if (Uri.TryCreate(url, UriKind.Absolute, out var abs)) return abs.AbsoluteUri;
             
             // 如果 baseUri 存在，尝试作为相对路径解析
-            if (baseUri != null && Uri.TryCreate(baseUri, url, out var rel)) return rel.ToString();
+            if (baseUri != null && Uri.TryCreate(baseUri, url, out var rel)) return rel.AbsoluteUri;
             
             // 如果都失败了，直接返回原始 url (可能是包含非标准字符的绝对路径)
             return url;
